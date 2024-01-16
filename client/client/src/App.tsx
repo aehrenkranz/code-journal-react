@@ -6,10 +6,11 @@ import EntriesView from './EntriesView';
 import EntryFormView from './EntryFormView';
 import { useState } from 'react';
 let formView = 'hidden';
+const editView='hidden'
 let entriesView = '';
 function App() {
   const [view, setView] = useState('entriesView');
-  function handleEntriesViewSwap() {
+   function handleEntriesViewSwap() {
     setView('entriesView');
     entriesView = '';
     formView = 'hidden';
@@ -45,8 +46,8 @@ function App() {
           </div>
         </div>
       </header>
-      <EntryFormView formView={formView} />
-      <EntriesView entriesView={entriesView} onCustomClick={handleViewSwap} />
+      <EntryFormView title='New Entry' formTitle='' url='' notes='' formView={formView} deleteButtonClass='invisible'viewSwapFunction={()=>handleEntriesViewSwap()} />
+      <EntriesView entriesView={entriesView} onNewButtonClick={handleViewSwap} />
     </>
   );
 }

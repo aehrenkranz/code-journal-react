@@ -1,16 +1,33 @@
+import { FormEvent } from "react";
+import './data'
+import { addEntry } from "./data";
 type Props = {
   formView: string;
+  title:string
+  formTitle:string
+  url:string
+  notes:string
+  deleteButtonClass:string
+  viewSwapFunction:()=>void
 };
-export default function EntryFormView({ formView }: Props) {
+export default function EntryFormView({ formView,title,formTitle,url,notes,deleteButtonClass,viewSwapFunction }: Props) {
+  function handleSubmit(event:FormEvent<HTMLFormElement>){
+    event.preventDefault();
+    const formData=new FormData(event.currentTarget)
+    const inputtedEntries=Object.fromEntries(formData.entries())
+    addEntry(inputtedEntries)
+    event.currentTarget.reset();
+    {viewSwapFunction()}
+  }
   return (
     <div className={formView}>
       <div className="container" data-view="entry-form">
         <div className="row">
           <div className="column-full d-flex justify-between">
-            <h1 id="formH1">New Entry</h1>
+            <h1 id="formH1">{title}</h1>
           </div>
         </div>
-        <form id="entryForm">
+        <form id="entryForm" onSubmit={handleSubmit}>
           <div className="row margin-bottom-1">
             <div className="column-half">
               <img
@@ -30,16 +47,19 @@ export default function EntryFormView({ formView }: Props) {
                 type="text"
                 id="formTitle"
                 name="formTitle"
+                defaultValue={formTitle}
               />
               <label className="margin-bottom-1 d-block" htmlFor="photoUrk">
                 Photo URL
               </label>
               <input
+
                 required
                 className="input-b-color text-padding input-b-radius purple-outline input-height margin-bottom-2 d-block width-100"
                 type="text"
                 id="formURL"
                 name="formURL"
+                defaultValue={url}
               />
             </div>
           </div>
@@ -54,18 +74,19 @@ export default function EntryFormView({ formView }: Props) {
                 name="formNotes"
                 id="formNotes"
                 cols={30}
-                rows={10}></textarea>
+                rows={10}
+                defaultValue={notes}></textarea>
             </div>
           </div>
           <div className="row">
             <div className="column-full d-flex justify-between">
               <button
-                className="invisible delete-entry-button"
+                className={deleteButtonClass}
                 type="button"
                 id="deleteEntry">
                 Delete Entry
               </button>
-              <button className="input-b-radius text-padding purple-background white-text">
+              <button type="submit" className="input-b-radius text-padding purple-background white-text">
                 SAVE
               </button>
             </div>

@@ -1,6 +1,9 @@
-export default function EntryFormView() {
+type Props = {
+  formView: string;
+};
+export default function EntryFormView({ formView }: Props) {
   return (
-    <>
+    <div className={formView}>
       <div className="container" data-view="entry-form">
         <div className="row">
           <div className="column-full d-flex justify-between">
@@ -70,6 +73,6 @@ export default function EntryFormView() {
         </form>
       </div>
       ;
-    </>
+    </div>
   );
 }

@@ -4,7 +4,27 @@ import './reset.css';
 import './assets/pencil-solid.svg';
 import EntriesView from './EntriesView';
 import EntryFormView from './EntryFormView';
+import { useState } from 'react';
+let formView = 'hidden';
+let entriesView = '';
 function App() {
+  const [view, setView] = useState('entriesView');
+  function handleEntriesViewSwap() {
+    setView('entriesView');
+    entriesView = '';
+    formView = 'hidden';
+  }
+  function handleViewSwap() {
+    if (view === 'entriesView') {
+      setView('formView');
+      entriesView = 'hidden';
+      formView = '';
+    } else {
+      setView('entriesView');
+      entriesView = '';
+      formView = 'hidden';
+    }
+  }
   return (
     <>
       <header className="header purple-background">
@@ -14,6 +34,7 @@ function App() {
               <h1 className="white-text">Code Journal</h1>
               <h3>
                 <a
+                  onClick={handleEntriesViewSwap}
                   id="entriesLink"
                   className="entries-link white-text"
                   href="#">
@@ -24,8 +45,8 @@ function App() {
           </div>
         </div>
       </header>
-      <EntryFormView />
-      <EntriesView />
+      <EntryFormView formView={formView} />
+      <EntriesView entriesView={entriesView} onCustomClick={handleViewSwap} />
     </>
   );
 }

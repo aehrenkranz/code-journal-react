@@ -1,6 +1,6 @@
 export default function EntriesView() {
   return (
-    <div className="container" data-view="entries">
+    <div className="container hidden" data-view="entries">
       <div className="row">
         <div className="column-full d-flex justify-between align-center">
           <h1>Entries</h1>

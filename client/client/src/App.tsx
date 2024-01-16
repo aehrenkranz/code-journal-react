@@ -3,6 +3,7 @@ import './styles.css';
 import './reset.css';
 import './assets/pencil-solid.svg';
 import EntriesView from './EntriesView';
+import EntryFormView from './EntryFormView';
 function App() {
   return (
     <>
@@ -23,7 +24,7 @@ function App() {
           </div>
         </div>
       </header>
-
+      <EntryFormView />
       <EntriesView />
     </>
   );

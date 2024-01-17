@@ -1,14 +1,21 @@
 import { readEntries } from './data';
-import { ReactNode, useEffect } from 'react';
+import { MouseEventHandler, ReactNode } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPencil } from '@fortawesome/free-solid-svg-icons';
 type Props = {
   entriesView: string;
   onNewButtonClick: () => void;
+  onEditButtonClick: MouseEventHandler<SVGSVGElement>;
 };
-export default function EntriesView({ entriesView, onNewButtonClick }: Props) {
+export default function EntriesView({
+  entriesView,
+  onNewButtonClick,
+  onEditButtonClick,
+}: Props) {
+  const liveEntries: ReactNode[] = [];
   const localStorageEntries = readEntries();
-  const liveEntries:ReactNode[] = [];
-  localStorageEntries.forEach((element) => {
-    if (element) {
+  if (localStorageEntries) {
+    localStorageEntries.forEach((element) => {
       liveEntries.push(
         <li data-entry-id={element.entryId} key={element.entryId}>
           <div className="row">
@@ -21,6 +28,11 @@ export default function EntriesView({ entriesView, onNewButtonClick }: Props) {
               <div className="row">
                 <div className="column-full d-flex justify-between align-center">
                   <h3>{element.formTitle}</h3>
+                  <FontAwesomeIcon
+                    cursor="pointer"
+                    icon={faPencil}
+                    onClick={onEditButtonClick}
+                  />
                 </div>
                 <p>{element.formNotes}</p>
               </div>
@@ -28,8 +40,8 @@ export default function EntriesView({ entriesView, onNewButtonClick }: Props) {
           </div>
         </li>
       );
-    }
-  });
+    });
+  }
 
   return (
     <div className={entriesView}>

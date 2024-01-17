@@ -1,26 +1,53 @@
-import { FormEvent } from "react";
-import './data'
-import { addEntry } from "./data";
+import { FormEvent } from 'react';
+import './data';
+import { addEntry, updateEntry } from './data';
 type Props = {
-  formView: string;
-  title:string
-  formTitle:string
-  url:string
-  notes:string
-  deleteButtonClass:string
-  viewSwapFunction:()=>void
+  formViewClass: string;
+  title: string;
+  formTitle: string;
+  url: string;
+  notes: string;
+  deleteButtonClass: string;
+  viewSwapFunction: () => void;
+  pageTitle: string;
+  targetEntry: {
+    formTitle: string;
+    formURL: string;
+    formNotes: string;
+    entryId: number;
+  };
+  onDeleteButtonClick: () => void;
 };
-export default function EntryFormView({ formView,title,formTitle,url,notes,deleteButtonClass,viewSwapFunction }: Props) {
-  function handleSubmit(event:FormEvent<HTMLFormElement>){
+export default function EntryFormView({
+  targetEntry,
+  pageTitle,
+  formViewClass,
+  title,
+  formTitle,
+  url,
+  notes,
+  deleteButtonClass,
+  viewSwapFunction,
+  onDeleteButtonClick,
+}: Props) {
+  function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const formData=new FormData(event.currentTarget)
-    const inputtedEntries=Object.fromEntries(formData.entries())
-    addEntry(inputtedEntries)
+    const formData = new FormData(event.currentTarget);
+    const inputtedEntries = Object.fromEntries(formData.entries());
+    if (pageTitle === 'Edit Entry') {
+      inputtedEntries.entryId = targetEntry.entryId;
+      updateEntry(inputtedEntries);
+    } else {
+      addEntry(inputtedEntries);
+    }
+
     event.currentTarget.reset();
-    {viewSwapFunction()}
+    {
+      viewSwapFunction();
+    }
   }
   return (
-    <div className={formView}>
+    <div className={formViewClass}>
       <div className="container" data-view="entry-form">
         <div className="row">
           <div className="column-full d-flex justify-between">
@@ -53,7 +80,6 @@ export default function EntryFormView({ formView,title,formTitle,url,notes,delet
                 Photo URL
               </label>
               <input
-
                 required
                 className="input-b-color text-padding input-b-radius purple-outline input-height margin-bottom-2 d-block width-100"
                 type="text"
@@ -81,12 +107,15 @@ export default function EntryFormView({ formView,title,formTitle,url,notes,delet
           <div className="row">
             <div className="column-full d-flex justify-between">
               <button
+                onClick={onDeleteButtonClick}
                 className={deleteButtonClass}
                 type="button"
                 id="deleteEntry">
                 Delete Entry
               </button>
-              <button type="submit" className="input-b-radius text-padding purple-background white-text">
+              <button
+                type="submit"
+                className="input-b-radius text-padding purple-background white-text">
                 SAVE
               </button>
             </div>

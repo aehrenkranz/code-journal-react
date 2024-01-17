@@ -37,7 +37,7 @@ export function readEntries(): Entry[] {
   return readData().entries;
 }
 
-export function addEntry(entry:UnsavedEntry): Entry {
+export function addEntry(entry: UnsavedEntry): Entry {
   const data = readData();
   const newEntry = {
     ...entry,

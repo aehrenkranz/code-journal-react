@@ -1,15 +1,10 @@
 type Props = {
-  deleteEntryModalClass: string;
   onCancel: () => void;
   onConfirm: () => void;
 };
-export default function DeleteEntryModal({
-  deleteEntryModalClass,
-  onCancel,
-  onConfirm,
-}: Props) {
+export default function DeleteEntryModal({ onCancel, onConfirm }: Props) {
   return (
-    <article className={deleteEntryModalClass}>
+    <article>
       <div
         id="modalContainer"
         className="modal-container d-flex justify-center align-center">

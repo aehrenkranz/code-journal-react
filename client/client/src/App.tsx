@@ -1,35 +1,34 @@
+import './layout.css';
+import './styles.css';
+import './reset.css';
+import './assets/pencil-solid.svg';
+import EntriesView from './EntriesView';
+import EntryFormView from './EntryFormView';
 import { useState } from 'react';
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
-import './App.css';
-
+import { Entry } from './data';
+import NavBar from './NavBar';
 function App() {
-  const [count, setCount] = useState(0);
+  const [isEditing, setEditing] = useState<Entry | null | undefined>();
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <NavBar onEntriesButtonClick={() => setEditing(undefined)} />
+      {isEditing !== undefined ? (
+        <EntryFormView
+          targetEntry={isEditing}
+          handleViewSwap={() => {
+            setEditing(undefined);
+          }}
+        />
+      ) : (
+        <EntriesView
+          onNewButtonClick={() => setEditing(null)}
+          onEditButtonClick={(entry) => {
+            setEditing(entry);
+          }}
+        />
+      )}
     </>
   );
 }
-
 export default App;
